@@ -1,0 +1,17 @@
+h2 {
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: grey;
+}
+
+/* submit button */
+.btn-primary {
+    color: #fff;
+    background-color: #324960;
+    border-color: #357ebd;
+}
+form {
+    margin-top: 40px;
+}

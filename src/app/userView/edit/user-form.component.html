@@ -1,0 +1,88 @@
+<div class="container">
+    <div class="jobEdit col-md-6">
+        <h1>{{ title }}</h1>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input [(ngModel)]="user.name" type="text" class="form-control" formControlName="username" />
+                <div *ngIf="form.controls.username.touched && !form.controls.username.valid" class="alert alert-danger">
+                    Username is required
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input [(ngModel)]="user.email" class="form-control" formControlName="email" />
+                <div *ngIf="form.controls.email.touched && form.controls.email.errors">
+                    <div *ngIf="form.controls.email.errors.required" class="alert alert-danger">
+                        Email is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input [(ngModel)]="user.phone" class="form-control" formControlName="phone" />
+                <div *ngIf="form.controls.phone.touched && form.controls.phone.errors">
+                    <div *ngIf="form.controls.phone.errors.required" class="alert alert-danger">
+                        Phone is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <input [(ngModel)]="user.status" class="form-control" formControlName="status" />
+                <div *ngIf="form.controls.status.touched && form.controls.status.errors">
+                    <div *ngIf="form.controls.status.errors.required" class="alert alert-danger">
+                        Status is required.
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input [(ngModel)]="user.model" class="form-control" formControlName="model" />
+            </div>
+            <div class="form-group">
+                <label for="serial">Serial</label>
+                <input [(ngModel)]="user.serial" class="form-control" formControlName="serial" />
+            </div>
+            <div class="form-group">
+                <label for="problem">Problem</label>
+                <input [(ngModel)]="user.problem" class="form-control" formControlName="problem" />
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input [(ngModel)]="user.date" type="date" class="form-control" formControlName="date" />
+            </div>
+            <div class="form-group">
+                <label for="recommendation">Recommendation</label>
+                <input [(ngModel)]="user.recommendation" class="form-control" formControlName="recommendation" />
+            </div>
+            <div class="form-group">
+                <label for="type">Type</label>
+                <input [(ngModel)]="user.type" class="form-control" formControlName="type" />
+            </div>
+            <div class="form-group">
+                <!-- <section class="control-bar" *ngIf="uploadState | async; let state">
+            <button (click)="task.pause()" [disabled]="state === 'paused'">Pause</button>
+            <button (click)="task.cancel()" [disabled]="!(state === 'paused' || state === 'running')">Cancel</button>
+            <button (click)="task.resume()" [disabled]="state === 'running'">Resume</button>
+        </section> -->
+                <label for="file">File:</label>
+                <input type="file" (change)="upload($event)" accept=".png,.jpg" />
+                <progress max="100" [value]="(uploadProgress | async)"></progress>
+
+                <div class="result" *ngIf="uploadURL | async; let uploadSrc">
+                    <a [href]="uploadSrc">You just uploaded this file!</a>
+                </div>
+            </div>
+            <button [disabled]="!form.valid" class="btn btn-primary" type="submit">
+                {{ title }}
+            </button>
+        </form>
+        <!-- Uploaded images from firebase -->
+        <div class="container" *ngIf="downloadURL | async; let url">
+            <img [src]="url" alt="Image from AngularFireStorage">
+        </div>
+        <!-- end of jobEdit -->
+    </div>
+    <!-- end container -->
+</div>

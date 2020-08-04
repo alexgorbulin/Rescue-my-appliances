@@ -1,0 +1,74 @@
+<h2 class="text-center">List of jobs</h2>
+<!-- <button class="btn btn-primary" (click)="add()">Add</button>
+<button class="btn btn-primary" (click)="hi()">Managers view</button> -->
+<div class="row">
+    <div class="col-md-4">
+        <div class="foo done"></div>
+        Task is done
+    </div>
+    <div class="col-md-4">
+        <div class="foo inProgress"></div>
+        Task is in progress
+    </div>
+    <div class="col-md-4">
+        <div class="foo notTouched"></div>
+        Task is not started yet
+    </div>
+</div>
+<!-- <form class="container" [formGroup]="myForm" (ngSubmit)="update()"> -->
+<form class="container" [formGroup]="myForm" >
+    <input type="hidden" placeholder="Full Name" />
+    <div class="form-group">
+        <!-- #fullName -is a local reference -->
+        <!-- [(ngModel)]  - 2 way binding -->
+        <!-- service.formData.fullName - service comes from employee.componenet.ts -->
+        <!-- service.formData.fullName - formData -is instance of <Employee> -->
+    </div>
+    Select Employee
+    <select
+        [compareWith]="compareObjects"
+        [(ngModel)]="viewingUser"
+        formControlName="userId"
+        (change)="onChange($event, $event.target.value)"
+    >
+        <option *ngFor="let n of name" [value]="n.id">{{ n.name }} </option>
+    </select>
+</form>
+
+<div class="table-wrapper">
+    <table class="table table-bordered  fl-table">
+        <thead>
+            <tr>
+                <!-- <th>id</th> -->
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Task</th>
+                <!-- <th>Edit</th> -->
+                <th>Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr
+                *ngFor="let emp of list"
+                [ngStyle]="{
+                    'background-color':
+                        emp.status === 'done' ? '#d4edda' : emp.status === 'in progress' ? '#ffc107' : 'white'
+                }"
+            >
+                <!-- <td>{{ emp.id }}</td> -->
+                <td (click)="onEdit(emp)">{{ emp.name }}</td>
+                <td (click)="onEdit(emp)">{{ emp.email }}</td>
+                <td (click)="onEdit(emp)">{{ emp.phone }}</td>
+                <td (click)="onEdit(emp)">{{ emp.task }}</td>
+
+                <td>
+                    <a (click)="delete(emp.id, emp.name)">
+                        <i class="glyphicon glyphicon-remove" style="color: red"> </i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

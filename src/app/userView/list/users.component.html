@@ -1,0 +1,52 @@
+<h1>Your job for today</h1>
+<!-- <button class="btn btn-primary" (click)="add()">Add</button> -->
+<div class="table-wrapper">
+    <table class="table table-bordered  fl-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Task</th>
+                <th>Due date</th>
+
+                <th>Edit</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let user of users | async" [ngStyle]="{
+                    'background-color':
+                        user.data.status === 'done'
+                            ? '#d4edda'
+                            : user.data.status === 'in progress'
+                            ? '#ffc107'
+                            : 'white'
+                }">
+                <td>{{ user.data.name }}</td>
+                <td>{{ user.data.email }}</td>
+                <td>{{ user.data.phone }}</td>
+                <td>{{ user.data.task }}</td>
+                <td>{{ user.data.due.toDate() | date: 'yyyy/MM/dd h:mm:ss' }}</td>
+
+                <td>
+                    <a [routerLink]="['/add', user.id]">
+                        <i class="glyphicon glyphicon-edit" style="color: blue"> </i>
+                    </a>
+                </td>
+                <td>
+                    <!-- <a (click)="delete(user.id, user.data.name)">
+                        <i class="glyphicon glyphicon-remove" style="color: red"> </i>
+                    </a> -->
+                    <select (change)="changeStatus($event, user.id)">
+                        <option value="done">done</option>
+                        <option value="in progress">in progress</option>
+                        <option value="not touched">not touched</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <!-- <user-form.component.html> -->
+</div>

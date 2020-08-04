@@ -1,0 +1,99 @@
+<h2 class="text-center">{{ title }}</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+    <!-- <div class="form-group col-md-12 ">
+        <input
+            [(ngModel)]="_service.formData.id"
+            type="text"
+            class="form-control"
+            formControlName="id"
+            placeholder="id"
+        />
+    </div> -->
+
+    <div class="form-group col-md-12">
+        <input
+            [(ngModel)]="_service.formData.name"
+            type="text"
+            name="username"
+            class="form-control"
+            formControlName="username"
+            placeholder="Username"
+            [class.is-invalid]="form.controls.username.invalid && form.controls.username.touched"
+        />
+
+        <div *ngIf="(form.controls.username.touched && !form.controls.username.valid) || form.controls.username.dirty">
+            <small *ngIf="form.controls.username.errors?.required" class="text-danger">Username is required</small>
+        </div>
+    </div>
+    <div class="form-group ">
+        <div class="form-group col-md-6 col-sm-6 col-xs-6">
+            <input
+                name="email"
+                class="form-control"
+                formControlName="email"
+                placeholder="email"
+                [(ngModel)]="_service.formData.email"
+                [class.is-invalid]="form.controls.email.invalid && form.controls.email.touched"
+            />
+            <div *ngIf="(form.controls.email.invalid && form.controls.email.touched) || form.controls.email.dirty">
+                <small *ngIf="form.controls.email.errors?.required" class="text-danger"
+                    >Primary email is required</small
+                >
+                <!--question mark(?) is a safe navigation operator-->
+                <small *ngIf="form.controls.email.errors?.pattern" class="text-danger"
+                    >Please provide a valid email address</small
+                >
+            </div>
+        </div>
+        <div class="form-group col-md-6 col-sm-6 col-xs-6">
+            <input
+                name="phone"
+                class="form-control"
+                formControlName="phone"
+                placeholder="Phone number"
+                [(ngModel)]="_service.formData.phone"
+                [class.is-invalid]="form.controls.phone.invalid && form.controls.phone.touched"
+            />
+            <div *ngIf="(form.controls.phone.invalid && form.controls.phone.touched) || form.controls.phone.dirty">
+                <small *ngIf="form.controls.phone.errors?.required" class="text-danger"
+                    >Primary phone is required</small
+                >
+                <!--question mark(?) is a safe navigation operator-->
+                <small *ngIf="form.controls.phone.errors?.pattern" class="text-danger"
+                    >Please provide a valid phone address</small
+                >
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="padding: 12px;">
+        <select
+            [compareWith]="compareObjects"
+            [(ngModel)]="_service.formData.userId"
+            (change)="onChange($event, $event.target.value)"
+            class="form-control custom-select col-md-12"
+            formControlName="user"
+        >
+            <option *ngFor="let n of name" [value]="n.id">{{ n.name }} </option>
+        </select>
+    </div>
+    <div class="form-group col-md-12">
+        <input
+            [(ngModel)]="_service.formData.task"
+            type="text"
+            name="task"
+            class="form-control"
+            formControlName="task"
+            placeholder="task"
+            [class.is-invalid]="form.controls.task.invalid && form.controls.task.touched"
+        />
+
+        <div *ngIf="(form.controls.task.touched && !form.controls.task.valid) || form.controls.task.dirty">
+            <small *ngIf="form.controls.task.errors?.required" class="text-danger">task is required</small>
+        </div>
+    </div>
+    <div class="form-group col-md-12">
+        <button [disabled]="!form.valid" class="btn btn-primary btn-md btn-block" type="submit">
+            {{ title }}
+        </button>
+    </div>
+</form>
