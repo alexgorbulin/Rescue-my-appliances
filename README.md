@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Firestore
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.1.
@@ -27,3 +28,7 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 # angular-chapter12
+=======
+# Rescue-my-appliances
+App for tracking the jobs in appliance business
+>>>>>>> 2ede88982bc30953128642354ab9ff79b8417f88
