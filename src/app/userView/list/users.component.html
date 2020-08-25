@@ -1,6 +1,7 @@
 <h1>Your job for today</h1>
 <!-- <button class="btn btn-primary" (click)="add()">Add</button> -->
 <div class="table-wrapper">
+
     <table class="table table-bordered  fl-table">
         <thead>
             <tr>
@@ -39,11 +40,13 @@
                     <!-- <a (click)="delete(user.id, user.data.name)">
                         <i class="glyphicon glyphicon-remove" style="color: red"> </i>
                     </a> -->
-                    <select (change)="changeStatus($event, user.id)">
-                        <option value="done">done</option>
-                        <option value="in progress">in progress</option>
-                        <option value="not touched">not touched</option>
-                    </select>
+                    <form [formGroup]='formTemplate'>
+                        <select formControlName='status' (change)="changeStatus($event, user.id)">
+                            <option value="done">done</option>
+                            <option value="in progress">in progress</option>
+                            <option value="not touched">not touched</option>
+                        </select>
+                    </form>
                 </td>
             </tr>
         </tbody>

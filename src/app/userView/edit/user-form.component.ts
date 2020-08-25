@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { AngularFireStorage } from 'angularfire2/storage';
@@ -10,16 +10,26 @@ import { Observable } from 'rxjs';
 import { LoginService } from '../../login/login.service';
 import { ManagerPageService } from '../../managersView/managerPage.service';
 import { map, catchError } from 'rxjs/operators';
+// adding algolia search
+import * as algoliasearch from 'algoliasearch';
+// to share id between user and images components
+import { ImageService } from '../../shared/image.service';
+
+
 
 @Component({
     selector: 'user-form',
     templateUrl: 'user-form.component.html',
 })
 export class UserFormComponent {
+    // variable message to share id with images component
+    message: string;
     id;
     form: FormGroup;
     title: string;
     user = new User();
+    users: any;
+    downloadableURL = '';
     // variable for reference firebase storage of the image in the task
     private refPict;
     // variable for reference firebase storage ot the task
@@ -32,8 +42,12 @@ export class UserFormComponent {
     private url;
     private uploadSrc;
 
+
     userDoc: AngularFirestoreDocument<User>;
     singleUser: Observable<User>;
+    formTemplate = new FormGroup({
+        status: new FormControl(''),
+    })
 
     constructor(
         fb: FormBuilder,
@@ -42,7 +56,9 @@ export class UserFormComponent {
         private _route: ActivatedRoute,
         private _loginService: LoginService,
         private _service: ManagerPageService,
-        private _afStorage: AngularFireStorage
+        private _afStorage: AngularFireStorage,
+        // to share id between user and image components
+        private data: ImageService
     ) {
         //
         this.form = fb.group({
@@ -59,7 +75,7 @@ export class UserFormComponent {
         });
     }
 
-    upload(event) {
+    async upload(event) {
         // this._afStorage.upload(('users/' + this._loginService.loggedInUser + '/clients/' + this.id), event.target.files[0]);
         // create a random id
         const randomId = Math.random().toString(36).substring(2);
@@ -70,6 +86,7 @@ export class UserFormComponent {
         this.task = this.refPict.put(event.target.files[0]);
         this.uploadProgress = this.task.percentageChanges();
 
+        (await this.task).ref.getDownloadURL().then(url => { this.downloadableURL = url; });  // <<< url is found here
 
         // this.uploadURL = this.task.uploadURL();
         // this.ref = this._afStorage.ref('users/' + this._loginService.loggedInUser + '/clients/' + this.id + '/');
@@ -78,7 +95,8 @@ export class UserFormComponent {
         this._route.params.subscribe(params => {
             this.id = params['id'];
         });
-
+        // to share id between user and image components
+        this.data.currentMessage.subscribe(message => this.message = message)
         if (!this.id) {
             this.title = 'Add new job';
         } else {
@@ -146,5 +164,20 @@ export class UserFormComponent {
                 });
         }
         this._router.navigate(['']);
+    }
+    // Change status of the task, update firebase status property
+    changeStatus(event, recordId) {
+        this.users.status = event.target.value;
+        console.log(event);
+        console.log(recordId);
+        this.formTemplate.setValue({
+            status: (this.users.status)
+        });
+        this.afs
+            .collection('users')
+            .doc(this._loginService.loggedInUser + '/clients/' + recordId)
+            .update({
+                status: event.target.value,
+            });
     }
 }

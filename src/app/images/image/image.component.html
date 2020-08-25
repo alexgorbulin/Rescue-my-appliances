@@ -1,0 +1,53 @@
+<div class="card">
+    <div class="card-body">
+        <!-- we do not need action for form, instead we use [formGroup] -->
+        <!-- onSubmit we are passing form values by proding formTemplate.value -->
+        <form [formGroup]='formTemplate' (submit)="onSubmit(formTemplate.value)">
+            <!-- showing choosen image -->
+            <div class="text-center">
+                <!-- [src]- squere brackets because assigning variable from imageComponent OnInit -->
+                <img [src]='imgSrc' width="350px" height="250px" (click)="fileUpLoader.click()">
+            </div>
+            <!-- control the image for upload -->
+            <div class="form-group">
+                <label>Select file to upload</label>
+                <!-- event (change), when there is a change from selected image, we will run function showPreview($event)-->
+                <!-- showPreview($even) - $event is event variable that has all the propertice of state of this file uploader -->
+                <!-- #fileUpLoader -reference for img tag click event -->
+                <!-- rescticting for upload just images by adding accept=image/* -->
+                <input type="file" accept="image/*" class="form-control" #fileUpLoader formControlName='imageUrl'
+                    (change)="showPreview($event)">
+                <!-- validation control, if there any errors  -->
+                <!-- adding validation by checking if the form is submitted and checking if there is no error for this field -->
+                <div class="text-danger" *ngIf="isSubmitted && formControls.imageUrl.errors?.required">This field is
+                    required.</div>
+            </div>
+            <div class="form-group">
+                <input class="form-control" formControlName='caption' placeholder="Caption">
+                <!-- adding validation by checking if the form is submitted and checking if there is no error for this field -->
+                <div class="text-danger" *ngIf="isSubmitted && formControls.caption.errors?.required">This field is
+                    required.</div>
+            </div>
+            <!-- for category select dropdown -->
+            <div class="form-group">
+                <select formControlName='category' class="form-control">
+                    <option value="Animal">Animal</option>
+                    <option value="Vehicle">Vehicle</option>
+                    <option value="Bird">Bird</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <!-- instead of href we use routerLink -->
+                    <a routerLink="/image/list" class="btn btn-primary btn-block float-right">Go To Gallery</a>
+                </div>
+                <div class="form-froup col-md-6">
+                    <button type="submit" class="btn btn-success btn-block float-right">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- to change data between user and image component -->
+<button (click)="newMessage()">New Message</button>
+{{message}}

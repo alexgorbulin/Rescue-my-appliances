@@ -21,6 +21,9 @@ import { AuthGuard } from './login/auth.guard';
 import { ManagerPageComponent } from './managersView/managerPage.component';
 import { ManagerPageService } from './managersView/managerPage.service';
 import { AngularFireStorageModule } from 'angularfire2/storage';
+import { ImagesComponent } from './images/images.component';
+import { ImageComponent } from './images/image/image.component';
+import { ImageListComponent } from './images/image-list/image-list.component';
 
 var config = {
     apiKey: 'AIzaSyApECTjgeNpCPQ2jDXZpAA3kYaNVa05aDg',
@@ -41,6 +44,9 @@ var config = {
         ManagerPageComponent,
         ManagerFormComponent,
         ListOfJobsComponent,
+        ImagesComponent,
+        ImageComponent,
+        ImageListComponent,
     ],
     imports: [
         BrowserModule,
